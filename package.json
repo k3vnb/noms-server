@@ -1,8 +1,8 @@
 {
-  "name": "express-boilerplate",
+  "name": "noms-pdx-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API, server, and database for Noms PDX",
+  "main": "server.js",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
