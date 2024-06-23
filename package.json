@@ -1,8 +1,8 @@
 {
-  "name": "noms-pdx-server",
+  "name": "noms-server",
   "version": "1.0.0",
   "description": "API, server, and database for Noms PDX",
-  "main": "server.js",
+  "main": "src/server.js",
   "husky": {
     "hooks": {
       "pre-commit": "pretty-quick --staged"
