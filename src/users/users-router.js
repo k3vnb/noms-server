@@ -5,9 +5,13 @@ const usersRouter = express.Router();
 const jsonBodyParser = express.json();
 
 usersRouter.route("/").get((req, res) => {
+  // console.log('',req.session.passport);
+  // console.log("+++++++++++REQ\n", req, "\nENDREQ+++++++++++");
   if (req.user) {
+    console.log("req.user exists");
     res.json(req.user);
   } else {
+    console.log("req.user does not exist");
     res.send({});
   }
 });

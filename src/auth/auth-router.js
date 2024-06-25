@@ -15,6 +15,7 @@ authRouter.get(
   "/google/redirect",
   passport.authenticate("google"),
   (_req, res) => {
+    console.log("redirecting...", _req.user ? _req.user.id : "no user");
     res.redirect(`${requestOrigin}`);
   }
 );
