@@ -8,12 +8,28 @@ const hash = syntheticGooglePassword =>
   bcrypt.hashSync(syntheticGooglePassword, salt);
 
 const AuthService = {
-  findUserById(db, profileId) {
+  findUserByGoogleId(db, profileId) {
     console.log("Finding user...");
     return db
       .select("id", "email", "user_name")
       .from("users")
       .where({ googleid: profileId })
+      .first();
+  },
+  findUserById(db, id) {
+    console.log("Finding user...");
+    return db
+      .select("id", "email", "user_name")
+      .from("users")
+      .where({ id })
+      .first();
+  },
+  findUserByEmail(db, email) {
+    console.log("Finding user...");
+    return db
+      .select("id", "email", "user_name")
+      .from("users")
+      .where({ email })
       .first();
   },
   createUser(db, profile) {
