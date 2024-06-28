@@ -9,7 +9,6 @@ const googleStrategyConfig = {
   clientID: keys.google.clientID,
   clientSecret: keys.google.clientSecret,
   callbackURL: "/api/auth/google/redirect"
-  // scope: ["profile"],
 };
 
 const googleStrategyVerifyFn = function verify(
@@ -19,8 +18,9 @@ const googleStrategyVerifyFn = function verify(
   cb
 ) {
   // eslint-disable-next-line no-console
-  console.log("Connecting to Google...", { profile, cb });
-  AuthService.findUserByGoogleId(db, profile.id)
+  const email = profile.emails?.[0]?.value;
+  if (!email) return cb(null, false, { message: "No email provided" });
+  AuthService.findUserByEmail(db, email)
     .then(async usr => {
       console.log("User found strategy: ", usr);
       if (usr) return cb(null, usr);

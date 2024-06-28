@@ -28,9 +28,14 @@ authRouter.get("/unsuccessful", (_req, res) =>
   res.send("redirect unsuccessful")
 );
 
-authRouter.get("/logout", (req, res) => {
-  req.logout();
-  res.redirect(requestOrigin);
+authRouter.get("/logout", (req, res, next) => {
+  req.logout(function(err) {
+    console.log("logging out...", !!err, err);
+    if (err) {
+      return next(err);
+    }
+    res.redirect(requestOrigin);
+  });
 });
 
 module.exports = authRouter;
