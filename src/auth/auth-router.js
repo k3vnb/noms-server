@@ -1,6 +1,6 @@
 const express = require("express");
 const passport = require("passport");
-const { REQ_ORIGIN } = require("../config");
+const { SITE_URL } = require("../config");
 
 const authRouter = express.Router();
 
@@ -14,12 +14,12 @@ authRouter.get(
 authRouter.get(
   "/google/redirect",
   passport.authenticate("google", {
-    successReturnToOrRedirect: REQ_ORIGIN,
-    failureRedirect: REQ_ORIGIN,
+    successReturnToOrRedirect: SITE_URL,
+    failureRedirect: SITE_URL,
     failureMessage: true
   }),
   (_req, res) => {
-    res.redirect(REQ_ORIGIN);
+    res.redirect(SITE_URL);
   }
 );
 
@@ -32,7 +32,7 @@ authRouter.get("/logout", (req, res, next) => {
     if (err) {
       return next(err);
     }
-    res.redirect(REQ_ORIGIN);
+    res.redirect(SITE_URL);
   });
 });
 

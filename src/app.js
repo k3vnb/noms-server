@@ -18,9 +18,7 @@ const {
   handleSerializeUser,
   handleDeserializeUser
 } = require("./auth/passport-config");
-const { NODE_ENV, REQ_ORIGIN } = require("./config");
-
-const IS_PROD = NODE_ENV === "production";
+const { IS_PROD, SITE_URL } = require("./config");
 
 // Create express app instance & set db
 const app = express();
@@ -32,10 +30,11 @@ app.use(express.urlencoded({ extended: false }));
 
 app.use(morgan(IS_PROD ? "tiny" : "common"));
 app.use(helmet());
+
 app.use(
   cors({
     credentials: true,
-    origin: REQ_ORIGIN
+    origin: SITE_URL
   })
 );
 
