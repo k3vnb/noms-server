@@ -13,18 +13,20 @@ const upvotesRouter = require("./upvotes/upvotes-router");
 const usersRouter = require("./users/users-router");
 const authRouter = require("./auth/auth-router");
 const db = require("./db");
-const AuthService = require("./auth/auth-service");
 const {
-  googleStrategyConfig,
-  googleStrategyVerifyFn
+  googleStrategy,
+  handleSerializeUser,
+  handleDeserializeUser
 } = require("./auth/passport-config");
-const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { NODE_ENV, REQ_ORIGIN } = require("./config");
 
 const IS_PROD = NODE_ENV === "production";
 
+// Create express app instance & set db
 const app = express();
 app.set("db", db);
+
+// Top level middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -51,27 +53,14 @@ app.use(
   })
 );
 
+// Passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+passport.serializeUser(handleSerializeUser);
+passport.deserializeUser(handleDeserializeUser);
+passport.use(googleStrategy);
 
-passport.serializeUser(function(user, done) {
-  done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-  AuthService.findUserById(db, id)
-    .then(async usr => {
-      if (usr) return done(null, usr);
-      return done(null, false);
-    })
-    .catch(err => {
-      console.log("Error in deserializeUser", err);
-      return done(err, false);
-    });
-});
-
-passport.use(new GoogleStrategy(googleStrategyConfig, googleStrategyVerifyFn));
-
+// Routes
 app.use("/api/search", autocompleteRouter);
 app.use("/api/restaurants", restaurantsRouter);
 app.use("/api/comments", commentsRouter);

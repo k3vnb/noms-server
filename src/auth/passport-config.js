@@ -1,19 +1,15 @@
+const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const AuthService = require("./auth-service");
 const UsersService = require("../users/users-service");
 const db = require("../db");
 
-const googleStrategyConfig = {
+const GOOGLE_STRATEGY_CONFIG = {
   clientID: process.env.GOOGLE_CLIENT_ID,
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "/api/auth/google/redirect"
 };
 
-const googleStrategyVerifyFn = function verify(
-  accessToken,
-  refreshToken,
-  profile,
-  cb
-) {
+function handleGoogleStrategyResponse(accessToken, refreshToken, profile, cb) {
   const email = profile.emails?.[0]?.value;
   if (!email) return cb(null, false, { message: "No email provided" });
   AuthService.findUserByEmail(db, email)
@@ -44,9 +40,32 @@ const googleStrategyVerifyFn = function verify(
     .catch(err => {
       console.log("Error in passport-setup.js", err);
     });
-};
+}
+
+const googleStrategy = new GoogleStrategy(
+  GOOGLE_STRATEGY_CONFIG,
+  handleGoogleStrategyResponse
+);
+
+// PASSPORT SERIALIZE / DESERIALIZE FUNCS
+function handleSerializeUser(user, cb) {
+  cb(null, user.id);
+}
+
+function handleDeserializeUser(id, cb) {
+  AuthService.findUserById(db, id)
+    .then(async usr => {
+      if (usr) return cb(null, usr);
+      return cb(null, false);
+    })
+    .catch(err => {
+      console.log("Error in deserializeUser", err);
+      return cb(err, false);
+    });
+}
 
 module.exports = {
-  googleStrategyConfig,
-  googleStrategyVerifyFn
+  googleStrategy,
+  handleSerializeUser,
+  handleDeserializeUser
 };
