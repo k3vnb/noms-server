@@ -17,7 +17,7 @@ const AuthService = require("./auth/auth-service");
 const {
   googleStrategyConfig,
   googleStrategyVerifyFn
-} = require("./config/passport-setup");
+} = require("./auth/passport-config");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const { NODE_ENV, REQ_ORIGIN } = require("./config");
 
@@ -65,7 +65,7 @@ passport.deserializeUser(function(id, done) {
       return done(null, false);
     })
     .catch(err => {
-      console.log("Error in passport-setup.js", err);
+      console.log("Error in deserializeUser", err);
       return done(err, false);
     });
 });

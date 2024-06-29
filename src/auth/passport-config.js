@@ -1,11 +1,10 @@
-const keys = require("./keys");
-const AuthService = require("../auth/auth-service");
+const AuthService = require("./auth-service");
 const UsersService = require("../users/users-service");
 const db = require("../db");
 
 const googleStrategyConfig = {
-  clientID: keys.google.clientID,
-  clientSecret: keys.google.clientSecret,
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "/api/auth/google/redirect"
 };
 
