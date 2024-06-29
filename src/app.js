@@ -9,10 +9,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
-// const cookieSession = require("cookie-session");
 const session = require("express-session");
-const { NODE_ENV, requestOrigin } = require("./config");
-const keys = require("./config/keys");
 const autocompleteRouter = require("./autocomplete/autocomplete-router");
 const restaurantsRouter = require("./restaurants/restaurants-router");
 const commentsRouter = require("./comments/comments-router");
@@ -26,6 +23,7 @@ const {
   googleStrategyVerifyFn
 } = require("./config/passport-setup");
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const { NODE_ENV, REQ_ORIGIN } = require("./config");
 
 const IS_PROD = NODE_ENV === "production";
 
@@ -39,23 +37,15 @@ app.use(helmet());
 app.use(
   cors({
     credentials: true,
-    origin: requestOrigin
+    origin: REQ_ORIGIN
   })
 );
 
-app.use(cookieParser(keys.session.cookieKey));
-const cookieSessionConfig = {
-  sameSite: "none",
-  httpOnly: false,
-  // 4 hour sessions
-  maxAge: 4 * 60 * 60 * 1000,
-  keys: [keys.session.cookieKey]
-};
+app.use(cookieParser());
+
 if (IS_PROD) {
   app.set("trust proxy", 1);
-  cookieSessionConfig.secure = true;
 }
-// app.use(cookieSession(cookieSessionConfig));
 
 app.use(
   session({
@@ -88,6 +78,7 @@ passport.deserializeUser(function(id, done) {
       return done(err, false);
     });
 });
+
 passport.use(new GoogleStrategy(googleStrategyConfig, googleStrategyVerifyFn));
 
 app.use("/api/search", autocompleteRouter);
