@@ -33,6 +33,7 @@ commentsRouter
      *  Therefore posting a 'new' comment is just updating the empty string.
      */
     const { userId, restaurantId, commentId, updatedComment } = req.body;
+
     CommentsService.updateComment(
       req.app.get("db"),
       userId,
@@ -40,6 +41,12 @@ commentsRouter
       commentId,
       updatedComment
     ).then(newUserRestaurantObj => {
+      if (!newUserRestaurantObj.length) {
+        return res.status(400).json({
+          error: "Could not update comment"
+        });
+      }
+
       res
         .status(201)
         .location(
