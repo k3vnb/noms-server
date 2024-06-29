@@ -9,7 +9,6 @@ const hash = syntheticGooglePassword =>
 
 const AuthService = {
   findUserByGoogleId(db, profileId) {
-    console.log("Finding user...");
     return db
       .select("id", "email", "user_name")
       .from("users")
@@ -17,7 +16,6 @@ const AuthService = {
       .first();
   },
   findUserById(db, id) {
-    console.log("Finding user...");
     return db
       .select("id", "email", "user_name")
       .from("users")
@@ -25,7 +23,6 @@ const AuthService = {
       .first();
   },
   findUserByEmail(db, email) {
-    console.log("Finding user...");
     return db
       .select("id", "email", "user_name")
       .from("users")
@@ -33,7 +30,6 @@ const AuthService = {
       .first();
   },
   createUser(db, profile) {
-    console.log("Creating user...");
     return db("users")
       .returning(["id", "email", "user_name"])
       .insert({

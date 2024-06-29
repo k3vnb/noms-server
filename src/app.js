@@ -1,7 +1,3 @@
-/* eslint-disable space-before-function-paren */
-/* eslint-disable func-names */
-/* eslint-disable prefer-arrow-callback */
-/* eslint-disable quotes */
 require("dotenv").config();
 const express = require("express");
 const morgan = require("morgan");
@@ -59,21 +55,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.serializeUser(function(user, done) {
-  console.log("Serializing user in init...", !!user, user);
   done(null, user.id);
 });
-// app.use(passport.authenticate('session'));
 
 passport.deserializeUser(function(id, done) {
-  console.log("Deserializing user in init...", !!id, id);
   AuthService.findUserById(db, id)
     .then(async usr => {
-      console.log("User found deserialize: ", usr);
       if (usr) return done(null, usr);
       return done(null, false);
     })
     .catch(err => {
-      // eslint-disable-next-line no-console
       console.log("Error in passport-setup.js", err);
       return done(err, false);
     });
@@ -92,13 +83,11 @@ app.get("/", (_req, res) => {
   res.send("hello world");
 });
 
-// eslint-disable-next-line prefer-arrow-callback
-app.use(function errorHandler(error, _req, res, _next) {
+app.use(function errorHandler(error, _req, res) {
   let response;
   if (IS_PROD) {
     response = { error: { message: "server error" } };
   } else {
-    // eslint-disable-next-line no-console
     console.error(error);
     response = { message: error.message, error };
   }

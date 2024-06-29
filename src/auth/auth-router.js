@@ -19,7 +19,6 @@ authRouter.get(
     failureMessage: true
   }),
   (_req, res) => {
-    console.log("redirecting...", _req.user ? _req.user.id : "no user");
     res.redirect(REQ_ORIGIN);
   }
 );
@@ -30,7 +29,6 @@ authRouter.get("/unsuccessful", (_req, res) =>
 
 authRouter.get("/logout", (req, res, next) => {
   req.logout(function(err) {
-    console.log("logging out...", !!err, err);
     if (err) {
       return next(err);
     }
