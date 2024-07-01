@@ -23,7 +23,7 @@ commentsRouter
      *  Only users who have upvoted may comment.
      *  res.userComment will be an empty array if user has not upvoted.
      */
-    if (!res.userComment.length) {
+    if (!res.userComment) {
       return res.status(400).json({
         error: "Users cannot comment unless they have upvoted restaurant"
       });
@@ -40,8 +40,8 @@ commentsRouter
       restaurantId,
       commentId,
       updatedComment
-    ).then(newUserRestaurantObj => {
-      if (!newUserRestaurantObj.length) {
+    ).then(([newCommentsRecord]) => {
+      if (!newCommentsRecord) {
         return res.status(400).json({
           error: "Could not update comment"
         });
@@ -52,10 +52,10 @@ commentsRouter
         .location(
           path.posix.join(
             req.originalUrl,
-            `/${newUserRestaurantObj[0].restaurant_id}`
+            `/${newCommentsRecord.restaurant_id}`
           )
         )
-        .json(newUserRestaurantObj[0]);
+        .json(newCommentsRecord);
     });
   });
 

@@ -6,12 +6,16 @@ const helmet = require("helmet");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+
+// ROUTES
 const autocompleteRouter = require("./autocomplete/autocomplete-router");
 const restaurantsRouter = require("./restaurants/restaurants-router");
 const commentsRouter = require("./comments/comments-router");
 const upvotesRouter = require("./upvotes/upvotes-router");
 const usersRouter = require("./users/users-router");
 const authRouter = require("./auth/auth-router");
+
+// DB & Auth Config
 const db = require("./db");
 const {
   googleStrategy,

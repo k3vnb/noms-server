@@ -1,9 +1,9 @@
-/* eslint-disable no-console */
 const bcrypt = require("bcrypt");
 
-const saltRounds = 10;
+const SALT_ROUNDS = 10;
 
-var salt = bcrypt.genSaltSync(saltRounds);
+var salt = bcrypt.genSaltSync(SALT_ROUNDS);
+
 const hash = syntheticGooglePassword =>
   bcrypt.hashSync(syntheticGooglePassword, salt);
 

@@ -1,5 +1,17 @@
+const SITE_URL_PROD = "https://www.nomspdx.com";
+const SITE_URL_DEV = "http://localhost:3000";
+
+const VALID_FOOD_CATEGORIES = [
+  "Burger",
+  "Sushi",
+  "Burrito",
+  "Pizza",
+  "Ice Cream",
+  "Coffee"
+];
+
 module.exports = {
-  PORT_DEFAULT: 8000,
-  SITE_URL_PROD: "https://www.nomspdx.com",
-  SITE_URL_DEV: "http://localhost:3000"
+  SITE_URL_PROD,
+  SITE_URL_DEV,
+  VALID_FOOD_CATEGORIES
 };

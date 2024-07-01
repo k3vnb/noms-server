@@ -22,7 +22,8 @@ module.exports = [
       quotes: ["error", "double"],
       "no-unused-vars": ["warn"],
       "no-var": ["off"],
-      "one-var": ["off"]
+      "one-var": ["off"],
+      "no-undef": ["error", { ignorePatterns: ["process"] }]
     }
   }
 ];

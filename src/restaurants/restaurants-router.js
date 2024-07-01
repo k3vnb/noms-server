@@ -1,6 +1,7 @@
 const express = require("express");
 const path = require("path");
 const RestaurantsService = require("./restaurants-service");
+const { VALID_FOOD_CATEGORIES } = require("../../constants");
 
 const restaurantsRouter = express.Router();
 const jsonBodyParser = express.json();
@@ -24,6 +25,7 @@ restaurantsRouter
       googleid,
       comment = ""
     } = req.body;
+
     const newRestaurant = {
       restaurant_name,
       food_category,
@@ -33,22 +35,14 @@ restaurantsRouter
       nominated_by_user,
       comment
     };
-    // TO DO extract food categories array to its own file for import
-    const validFoodCategories = [
-      "Burger",
-      "Sushi",
-      "Burrito",
-      "Pizza",
-      "Ice Cream",
-      "Coffee"
-    ];
+
     for (const [key, value] of Object.entries(newRestaurant))
       if (value == null)
         return res.status(400).json({
           error: `Missing '${key}' in request body`
         });
 
-    if (!validFoodCategories.includes(food_category))
+    if (!VALID_FOOD_CATEGORIES.includes(food_category))
       return res.status(400).json({
         error: "Invalid food_category parameter"
       });
