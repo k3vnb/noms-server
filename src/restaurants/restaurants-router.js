@@ -39,7 +39,7 @@ restaurantsRouter
       "Sushi",
       "Burrito",
       "Pizza",
-      "Gyro",
+      "Ice Cream",
       "Coffee"
     ];
     for (const [key, value] of Object.entries(newRestaurant))

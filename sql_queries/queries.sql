@@ -24,8 +24,8 @@ INSERT INTO likes_and_comments (user_id, restaurant_id, comment) VALUES (2, 4, '
 
 -- post (nominate) new restaurant requires two INSERT statements, the second needs to get the values for user_id and rez_id from the first, this requires a subquery
 
-INSERT INTO restaurants (name, food_category, nominated_by_user)  VALUES ( 'Gyro Heroes', 'Falafel', 3 );
-INSERT INTO likes_and_comments (user_id, restaurant_id, comment) VALUES ((SELECT nominated_by_user FROM restaurants WHERE name='Gyro Heroes'), (SELECT id FROM restaurants WHERE name='Gyro Heroes'), 'Cucumbers and herb sauce are great');
+INSERT INTO restaurants (name, food_category, nominated_by_user)  VALUES ( 'Salt and Straw', 'Ice Cream', 3 );
+INSERT INTO likes_and_comments (user_id, restaurant_id, comment) VALUES ((SELECT nominated_by_user FROM restaurants WHERE name='Salt and Straw'), (SELECT id FROM restaurants WHERE name='Salt and Straw'), 'Rotating special flavors and free samples');
 
 --
 
