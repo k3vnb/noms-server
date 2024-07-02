@@ -4,7 +4,7 @@ const SITE_URL_DEV = "http://localhost:3000";
 const VALID_FOOD_CATEGORIES = [
   "Burger",
   "Sushi",
-  "Burrito",
+  "Tacos",
   "Pizza",
   "Ice Cream",
   "Coffee"
