@@ -12,6 +12,8 @@ const GOOGLE_STRATEGY_CONFIG = {
 function handleGoogleStrategyResponse(accessToken, refreshToken, profile, cb) {
   const email = profile.emails?.[0]?.value;
   if (!email) return cb(null, false, { message: "No email provided" });
+
+  // Find or Create User in DB
   AuthService.findUserByEmail(db, email)
     .then(async usr => {
       if (usr) return cb(null, usr);

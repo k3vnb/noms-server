@@ -1,11 +1,8 @@
-const bcrypt = require("bcrypt");
+const { genSaltSync, hashSync } = require("bcrypt");
 
 const SALT_ROUNDS = 10;
-
-var salt = bcrypt.genSaltSync(SALT_ROUNDS);
-
-const hash = syntheticGooglePassword =>
-  bcrypt.hashSync(syntheticGooglePassword, salt);
+const salt = genSaltSync(SALT_ROUNDS);
+const hash = syntheticGooglePassword => hashSync(syntheticGooglePassword, salt);
 
 const AuthService = {
   findUserByGoogleId(db, profileId) {
