@@ -48,6 +48,7 @@ const RestaurantsService = {
       googleid,
       comment
     } = newRestaurant;
+
     return db
       .insert({
         name,
@@ -90,6 +91,7 @@ const RestaurantsService = {
       food_category,
       vote_count
     } = restaurant;
+
     return {
       id,
       name: xss(name),
@@ -112,6 +114,7 @@ const RestaurantsService = {
       date_commented,
       user_name
     } = comments;
+
     return {
       id,
       user_id,
@@ -124,10 +127,8 @@ const RestaurantsService = {
   },
   serializeRestaurantUsersAndComments(restaurant) {
     const serializedRestaurant = this.serializeRestaurant(restaurant);
-    const { comments } = restaurant;
-    // const serializedComments = comments.map(comment =>
-    //   this.serializeComments(comment)
-    // );
+    const { comments = [] } = restaurant;
+
     return {
       ...serializedRestaurant,
       comments: comments.map(comment => this.serializeComments(comment))
