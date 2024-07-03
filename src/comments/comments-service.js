@@ -8,12 +8,17 @@ const CommentsService = {
       .where({
         user_id: userId,
         restaurant_id: restaurantId
-      });
+      })
+      .first();
   },
   updateComment(db, userId, restaurantId, commentId, updatedComment) {
     return db
       .into("likes_and_comments")
-      .where("id", commentId)
+      .where({
+        user_id: userId,
+        restaurant_id: restaurantId,
+        id: commentId
+      })
       .update({
         comment: xss(updatedComment)
       })

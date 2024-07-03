@@ -23,7 +23,7 @@ commentsRouter
      *  Only users who have upvoted may comment.
      *  res.userComment will be an empty array if user has not upvoted.
      */
-    if (!res.userComment.length) {
+    if (!res.userComment) {
       return res.status(400).json({
         error: "Users cannot comment unless they have upvoted restaurant"
       });
@@ -33,22 +33,29 @@ commentsRouter
      *  Therefore posting a 'new' comment is just updating the empty string.
      */
     const { userId, restaurantId, commentId, updatedComment } = req.body;
+
     CommentsService.updateComment(
       req.app.get("db"),
       userId,
       restaurantId,
       commentId,
       updatedComment
-    ).then(newUserRestaurantObj => {
+    ).then(([newCommentsRecord]) => {
+      if (!newCommentsRecord) {
+        return res.status(400).json({
+          error: "Could not update comment"
+        });
+      }
+
       res
         .status(201)
         .location(
           path.posix.join(
             req.originalUrl,
-            `/${newUserRestaurantObj[0].restaurant_id}`
+            `/${newCommentsRecord.restaurant_id}`
           )
         )
-        .json(newUserRestaurantObj[0]);
+        .json(newCommentsRecord);
     });
   });
 
