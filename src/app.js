@@ -38,7 +38,8 @@ app.use(helmet());
 app.use(
   cors({
     credentials: true,
-    origin: SITE_URL
+    origin: SITE_URL,
+    accessControlAllowOrigin: SITE_URL
   })
 );
 
