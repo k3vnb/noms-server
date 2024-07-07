@@ -15,7 +15,7 @@
     "start": "node src/server.js",
     "migrate": "npx postgrator --config postgrator-config.js",
     "migrate:test": "env NODE_ENV=test npm run migrate",
-    "migrate:production": "env SSL=true DATABASE_URI=$(heroku config:get DATABASE_URI) npx postgrator --config postgrator-production-config.js",
+    "migrate:production": "env SSL=true DATABASE_URL=$(heroku config:get DATABASE_URL) npx postgrator --config postgrator-production-config.js",
     "predeploy": "npm audit && npm run migrate:production",
     "deploy": "git push heroku main"
   },
