@@ -46,10 +46,6 @@ app.use(
 
 app.use(cookieParser());
 
-if (IS_PROD) {
-  app.set("trust proxy", 1);
-}
-
 app.use(
   session({
     cookie: {
@@ -63,6 +59,10 @@ app.use(
     saveUninitialized: false
   })
 );
+
+if (IS_PROD) {
+  app.set("trust proxy", 1);
+}
 
 // Passport middleware
 app.use(passport.initialize());
