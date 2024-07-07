@@ -6,6 +6,7 @@ const helmet = require("helmet");
 const passport = require("passport");
 const cookieParser = require("cookie-parser");
 const session = require("express-session");
+const MemoryStore = require("memorystore")(session);
 
 // ROUTES
 const autocompleteRouter = require("./autocomplete/autocomplete-router");
@@ -51,6 +52,12 @@ if (IS_PROD) {
 
 app.use(
   session({
+    cookie: {
+      maxAge: 86400000 // 24h
+    },
+    store: new MemoryStore({
+      checkPeriod: 86400000 // prune expired entries every 24h
+    }),
     secret: "keyboard cat",
     resave: true,
     saveUninitialized: true
